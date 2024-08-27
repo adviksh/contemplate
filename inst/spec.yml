@@ -1,0 +1,15 @@
+rows:
+  species:
+    setosa: 5 6
+    versicolor: 7 8
+    virginica: 9 10
+    sample: 11
+  stat_name:
+    mean: 5 7 9
+    sd: 6 8 10
+    sample_size: 11
+cols: 2
+end_of_lines:
+  short_break:
+    text: "[2pt]"
+    rows: 10
