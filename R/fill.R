@@ -22,7 +22,7 @@ fill = function(template, spec, values, value_col) {
 
   fill_shell = make_fill_shell(spec)
 
-  fill_tb = merge(fill_shell, values, all.x = TRUE, all.y = FALSE)
+  fill_tb = merge(fill_shell, values, all.x = TRUE, all.y = FALSE, sort = FALSE)
 
 
   # Replace missing values

@@ -3,14 +3,16 @@ make_fill_shell = function(conf) {
   row_tb = make_dim_tb(conf[["rows"]], 'row_num')
   col_tb = make_dim_tb(conf[["cols"]], 'col_num')
 
-  fill_shell_seed = tidyr:: crossing(row_num = row_tb$row_num,
-                                     col_num = col_tb$col_num)
+  fill_shell_seed = expand.grid(row_num = row_tb$row_num,
+                                col_num = col_tb$col_num,
+                                stringsAsFactors = FALSE)
 
-  fill_shell = dplyr::inner_join(fill_shell_seed, row_tb, by = 'row_num')
-  fill_shell = dplyr::inner_join(fill_shell, col_tb, by = 'col_num')
+  fill_shell = merge(fill_shell_seed, row_tb, all = FALSE, by = 'row_num')
+  fill_shell = merge(fill_shell, col_tb, all = FALSE, by = 'col_num')
 
-  fill_shell = dplyr::arrange(fill_shell, row_num, col_num)
-  dplyr::mutate(fill_shell, shell_row_id = dplyr::row_number())
+  fill_shell = fill_shell[order(fill_shell$row_num, fill_shell$col_num), ]
+  fill_shell$shell_row_id = seq_len(nrow(fill_shell))
+
 }
 
 
@@ -20,7 +22,7 @@ make_dim_tb = function(dims, dim_name) {
     cat_tb = data.frame('idx_num' = dims)
   } else {
     cat_tb = make_cat_tb(dims)
-    cat_tb = purrr::reduce(cat_tb, dplyr::inner_join, by = 'idx_num')
+    cat_tb = purrr::reduce(cat_tb, merge, by = 'idx_num')
   }
   update_name(cat_tb, 'idx_num', dim_name)
 }
