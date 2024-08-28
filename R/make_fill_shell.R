@@ -13,6 +13,7 @@ make_fill_shell = function(conf) {
   fill_shell = fill_shell[order(fill_shell$row_num, fill_shell$col_num), ]
   fill_shell$shell_row_id = seq_len(nrow(fill_shell))
 
+  fill_shell
 }
 
 
