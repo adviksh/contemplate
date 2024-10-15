@@ -37,8 +37,15 @@ make_cat_tb = function(dims) {
 make_subcat_tb = function(idx_num, subcat_val){
 
   idx_num = idx_as_int(idx_num)
-  tibble::tibble(idx_num = idx_num, subcat_val = subcat_val)
+  tb = tibble::tibble(idx_num = idx_num, subcat_val = subcat_val)
 
+  if (anyDuplicated(tb$idx_num)) {
+    dupes = tb$idx_num[duplicated(tb$idx_num)]
+    msg = "Duplicated indices in {subcat_val}: {paste(dupes, collapse = ',')}"
+    stop(msg)
+  }
+
+  tb
 }
 
 update_name = function(x, old_name, new_name) {
@@ -51,6 +58,7 @@ idx_as_int = function(idx_num) {
   idx_num = unlist(idx_num, use.names = FALSE)
   idx_num = expand_dash(idx_num)
   idx_num = as.integer(idx_num)
+
   idx_num
 }
 
