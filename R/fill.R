@@ -23,7 +23,7 @@ fill = function(template, spec, values, value_col) {
   fill_shell = make_fill_shell(spec)
 
   fill_tb = merge(fill_shell, values, all.x = TRUE, all.y = FALSE, sort = FALSE)
-
+  fill_tb = fill_tb[order(fill_tb$row_num, fill_tb$col_num), ]
 
   # Replace missing values
   fill_tb[[value_col]] = ifelse(is.na(fill_tb[[value_col]]), " ", fill_tb[[value_col]])
