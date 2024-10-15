@@ -49,6 +49,21 @@ update_name = function(x, old_name, new_name) {
 idx_as_int = function(idx_num) {
   idx_num = stringr::str_split(idx_num, " ")
   idx_num = unlist(idx_num, use.names = FALSE)
+  idx_num = expand_dash(idx_num)
   idx_num = as.integer(idx_num)
   idx_num
 }
+
+expand_dash = function(idx_nums) {
+
+  dash_seq = function(x) {
+    if (length(x) == 1) return(as.integer(x))
+    if (length(x) == 2) return(seq(x[[1]], x[[2]]))
+    stop("x needs to have 1 or 2 entries")
+  }
+
+  expanded = stringr::str_split(idx_nums, "-")
+  expanded = lapply(expanded, dash_seq)
+  unlist(expanded, use.names = FALSE)
+}
+
